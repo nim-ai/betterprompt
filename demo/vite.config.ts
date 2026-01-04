@@ -8,10 +8,6 @@ export default defineConfig({
     outDir: "dist",
     emptyOutDir: true,
     sourcemap: true,
-    rollupOptions: {
-      // Exclude Node.js-only packages from browser build
-      external: ["onnxruntime-node"],
-    },
   },
   optimizeDeps: {
     include: ["@xenova/transformers", "onnxruntime-web"],
