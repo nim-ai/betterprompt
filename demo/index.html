@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>betterprompt Demo</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>betterprompt</h1>
+        <p class="subtitle">Semantic text merges for better AI prompting.</p>
+        <p class="links">
+          <a href="https://github.com/nim-ai/betterprompt" target="_blank"
+            >GitHub</a
+          >
+          &middot;
+          <a href="https://www.npmjs.com/package/@nim-ai/betterprompt" target="_blank"
+            >npm</a
+          >
+        </p>
+      </header>
+
+      <main>
+        <section class="demo-section">
+          <h2>Three-Way Merge Demo</h2>
+          <p class="description">
+            Enter three versions of text: the original base, an upgraded base,
+            and a user-customized version. The algorithm will merge them
+            intelligently, preserving user customizations while applying base
+            upgrades.
+          </p>
+
+          <div class="editors">
+            <div class="editor-group">
+              <label for="base-v1"><i data-lucide="file-text"></i> A (Original)</label>
+              <textarea
+                id="base-v1"
+                placeholder="Enter the original/ancestor text..."
+              >
+You are a helpful assistant.
+You should be concise and accurate.
+Always be polite.
+Cite sources.</textarea
+              >
+            </div>
+
+            <div class="editor-group">
+              <label for="base-v2"><i data-lucide="sparkles"></i> B (Upgraded)</label>
+              <textarea
+                id="base-v2"
+                placeholder="Enter the upgraded version..."
+              >
+You are a helpful AI assistant.
+You should be concise, accurate, and thorough.
+Always be polite.
+Cite sources when possible.</textarea
+              >
+            </div>
+
+            <div class="editor-group">
+              <label for="user-custom"><i data-lucide="user-pen"></i> C (User Customizations)</label>
+              <textarea
+                id="user-custom"
+                placeholder="Enter the user's customized version..."
+              >
+You are a helpful assistant specialized in Python programming.
+You should be concise and accurate.
+Always be friendly and polite.
+Focus on best practices and clean code.</textarea
+              >
+            </div>
+          </div>
+
+          <div class="merge-flow">
+            <i data-lucide="chevrons-down"></i>
+          </div>
+
+          <div class="controls">
+            <div class="control-group">
+              <label for="conflict-strategy">On Conflict:</label>
+              <select id="conflict-strategy">
+                <option value="prefer-a">Prefer A</option>
+                <option value="prefer-b">Prefer B</option>
+                <option value="prefer-c" selected>Prefer C (default)</option>
+                <option value="defer">Defer (show conflicts)</option>
+                <option value="concatenate">Concatenate (no removals)</option>
+              </select>
+            </div>
+
+            <button id="merge-btn" class="primary"><i data-lucide="git-merge"></i> Merge</button>
+          </div>
+
+          <div class="progress" id="progress" style="display: none">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <span id="progress-text">Initializing...</span>
+          </div>
+
+          <div class="result" id="result" style="display: none">
+            <h3><i data-lucide="file-check"></i> Merged Result</h3>
+            <div class="stats" id="stats"></div>
+            <div class="textarea-wrapper">
+              <textarea id="merged-output" readonly></textarea>
+              <button id="copy-btn" class="copy-btn" title="Copy to clipboard">📋</button>
+            </div>
+            <div class="diff-from-preferred" id="diff-from-preferred" style="display: none">
+              <h4 id="diff-from-preferred-title">Changes from C:</h4>
+              <div id="diff-from-preferred-output" class="diff-output-inline"></div>
+            </div>
+
+            <div class="conflicts" id="conflicts" style="display: none">
+              <h4>Unresolved Conflicts</h4>
+              <div id="conflict-list"></div>
+            </div>
+          </div>
+
+          <details class="code-example">
+            <summary>code example</summary>
+            <pre><code><span class="keyword">import</span> { merge } <span class="keyword">from</span> <span class="string">"@nim-ai/betterprompt"</span>;
+
+<span class="comment">// a = original, b = upgraded, c = user's version</span>
+<span class="keyword">const</span> result = <span class="keyword">await</span> <span class="function">merge</span>(a, b, c, { <span class="property">conflictStrategy</span>: <span class="string" id="three-way-strategy-code">"prefer-c"</span> });
+console.<span class="function">log</span>(result.<span class="property">merged</span>);  <span class="comment">// final text</span></code></pre>
+          </details>
+        </section>
+
+        <section class="demo-section">
+          <h2>Two-Way Merge Demo</h2>
+          <p class="description">
+            Combine two prompts intelligently, avoiding duplicates based on
+            semantic similarity.
+          </p>
+
+          <div class="editors two-col">
+            <div class="editor-group">
+              <label for="updates-prompt"><i data-lucide="plus-circle"></i> B (Updates)</label>
+              <textarea
+                id="updates-prompt"
+                placeholder="Enter updates to merge in..."
+              >
+You are an AI assistant.
+Be thorough in your explanations.
+Cite sources when possible.</textarea
+              >
+            </div>
+
+            <div class="editor-group">
+              <label for="current-prompt"><i data-lucide="file-text"></i> C (Current Prompt)</label>
+              <textarea
+                id="current-prompt"
+                placeholder="Enter your current prompt..."
+              >
+You are a helpful assistant.
+Be concise and accurate.
+Always be polite.</textarea
+              >
+            </div>
+          </div>
+
+          <div class="merge-flow">
+            <i data-lucide="chevrons-down"></i>
+          </div>
+
+          <div class="controls">
+            <div class="control-group">
+              <label for="two-way-conflict-strategy">On Conflict:</label>
+              <select id="two-way-conflict-strategy">
+                <option value="prefer-b">Prefer B</option>
+                <option value="prefer-c" selected>Prefer C (default)</option>
+                <option value="defer">Defer (show conflicts)</option>
+                <option value="concatenate">Concatenate (no removals)</option>
+              </select>
+            </div>
+
+            <button id="merge-updates-btn" class="primary"><i data-lucide="git-merge"></i> Merge</button>
+          </div>
+
+          <div class="result" id="updates-result" style="display: none">
+            <h3><i data-lucide="file-check"></i> Merged Prompt</h3>
+            <div class="textarea-wrapper">
+              <textarea id="updates-output" readonly></textarea>
+              <button id="copy-updates-btn" class="copy-btn" title="Copy to clipboard">📋</button>
+            </div>
+            <div class="diff-from-preferred" id="updates-diff">
+              <h4>Changes from your prompt:</h4>
+              <div id="updates-diff-output" class="diff-output-inline"></div>
+            </div>
+          </div>
+
+          <details class="code-example">
+            <summary>code example</summary>
+            <pre><code><span class="keyword">import</span> { merge } <span class="keyword">from</span> <span class="string">"@nim-ai/betterprompt"</span>;
+
+<span class="comment">// b = updates, c = current prompt</span>
+<span class="keyword">const</span> result = <span class="keyword">await</span> <span class="function">merge</span>(<span class="string">""</span>, b, c, { <span class="property">conflictStrategy</span>: <span class="string" id="two-way-strategy-code">"prefer-c"</span> });
+console.<span class="function">log</span>(result.<span class="property">merged</span>);  <span class="comment">// combined prompt</span></code></pre>
+          </details>
+        </section>
+
+      </main>
+
+      <footer>
+        <p>
+          Built with
+          <a href="https://github.com/nim-ai/betterprompt">betterprompt</a>. No
+          data is sent to any server &mdash; everything runs in your browser.
+        </p>
+      </footer>
+    </div>
+
+    <script type="module" src="./main.ts"></script>
+    <script>
+      // Initialize Lucide icons
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

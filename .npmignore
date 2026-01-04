@@ -1,0 +1,25 @@
+# Source maps (not needed in npm package)
+*.map
+
+# Native bindings (users install onnxruntime-node themselves)
+*.node
+
+# Development files
+.github/
+.vscode/
+.idea/
+benchmarks/
+demo/
+docs/
+tests/
+*.config.ts
+*.config.js
+.eslintrc*
+.prettierrc*
+tsconfig.json
+vitest.config.ts
+TODO.md
+
+# Build artifacts that shouldn't be published
+.turbo/
+coverage/
