@@ -13,7 +13,10 @@
 // Re-export everything from main
 export * from "./index.js";
 
-import { initBrowserEmbeddings, isMLEmbeddingsActive } from "./embeddings/index.js";
+import {
+  initBrowserEmbeddings,
+  isMLEmbeddingsActive,
+} from "./embeddings/index.js";
 
 export { isMLEmbeddingsActive };
 

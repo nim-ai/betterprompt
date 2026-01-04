@@ -109,7 +109,10 @@ function diff2(original: string[], modified: string[]): DiffOp[] {
   while (oi < original.length || mi < modified.length) {
     // Collect deletions (in original but not in common)
     const deletions: string[] = [];
-    while (oi < original.length && (ci >= common.length || original[oi] !== common[ci])) {
+    while (
+      oi < original.length &&
+      (ci >= common.length || original[oi] !== common[ci])
+    ) {
       deletions.push(original[oi]!);
       oi++;
     }
@@ -119,7 +122,10 @@ function diff2(original: string[], modified: string[]): DiffOp[] {
 
     // Collect insertions (in modified but not in common)
     const insertions: string[] = [];
-    while (mi < modified.length && (ci >= common.length || modified[mi] !== common[ci])) {
+    while (
+      mi < modified.length &&
+      (ci >= common.length || modified[mi] !== common[ci])
+    ) {
       insertions.push(modified[mi]!);
       mi++;
     }
@@ -153,7 +159,11 @@ function diff2(original: string[], modified: string[]): DiffOp[] {
  * @param c - User's customized text
  * @returns Merged result with minimal conflicts
  */
-export function wordMerge3Way(a: string, b: string, c: string): WordMergeResult {
+export function wordMerge3Way(
+  a: string,
+  b: string,
+  c: string
+): WordMergeResult {
   const tokensA = tokenize(a);
   const tokensB = tokenize(b);
   const tokensC = tokenize(c);
@@ -295,7 +305,11 @@ export function wordMerge3Way(a: string, b: string, c: string): WordMergeResult 
  * Check if two sentences differ only in non-overlapping words.
  * If so, they can be merged without conflict.
  */
-export function canMergeWithoutConflict(a: string, b: string, c: string): boolean {
+export function canMergeWithoutConflict(
+  a: string,
+  b: string,
+  c: string
+): boolean {
   const result = wordMerge3Way(a, b, c);
   return !result.hasConflict;
 }

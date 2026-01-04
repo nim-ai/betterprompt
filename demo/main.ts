@@ -172,10 +172,18 @@ mergeBtnEl.addEventListener("click", async () => {
   try {
     await ensureInitialized();
 
-    const conflictStrategy = conflictStrategyEl.value as "prefer-a" | "prefer-b" | "prefer-c" | "defer" | "concatenate";
+    const conflictStrategy = conflictStrategyEl.value as
+      | "prefer-a"
+      | "prefer-b"
+      | "prefer-c"
+      | "defer"
+      | "concatenate";
 
     console.log("=== MERGE DEBUG ===");
-    console.log("Embedding method:", isMLEmbeddingsActive() ? "ML (Model2Vec)" : "char-frequency fallback");
+    console.log(
+      "Embedding method:",
+      isMLEmbeddingsActive() ? "ML (Model2Vec)" : "char-frequency fallback"
+    );
     console.log("A (Base V1):", baseV1);
     console.log("B (Base V2):", baseV2);
     console.log("C (User Custom):", userCustom);
@@ -196,7 +204,13 @@ mergeBtnEl.addEventListener("click", async () => {
     console.log("Stats:", result.stats);
     console.log("Conflicts:", result.conflicts);
 
-    await displayMergeResult(result, conflictStrategy, baseV1, baseV2, userCustom);
+    await displayMergeResult(
+      result,
+      conflictStrategy,
+      baseV1,
+      baseV2,
+      userCustom
+    );
   } catch (err) {
     console.error("Merge failed:", err);
     alert(
@@ -330,7 +344,10 @@ function escapeHtml(text: string): string {
 }
 
 // Copy button handler
-function setupCopyButton(btn: HTMLButtonElement, textarea: HTMLTextAreaElement) {
+function setupCopyButton(
+  btn: HTMLButtonElement,
+  textarea: HTMLTextAreaElement
+) {
   btn.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(textarea.value);
@@ -358,8 +375,12 @@ setupCopyButton(copyBtnEl, mergedOutputEl);
 setupCopyButton(copyUpdatesBtnEl, updatesOutputEl);
 
 // Dynamic code examples
-const threeWayStrategyCodeEl = document.getElementById("three-way-strategy-code") as HTMLSpanElement;
-const twoWayStrategyCodeEl = document.getElementById("two-way-strategy-code") as HTMLSpanElement;
+const threeWayStrategyCodeEl = document.getElementById(
+  "three-way-strategy-code"
+) as HTMLSpanElement;
+const twoWayStrategyCodeEl = document.getElementById(
+  "two-way-strategy-code"
+) as HTMLSpanElement;
 
 conflictStrategyEl.addEventListener("change", () => {
   threeWayStrategyCodeEl.textContent = `"${conflictStrategyEl.value}"`;
@@ -385,7 +406,11 @@ mergeUpdatesBtnEl.addEventListener("click", async () => {
     await ensureInitialized();
 
     // In 2-way merge: A = empty, B = updates, C = current
-    const conflictStrategy = twoWayConflictStrategyEl.value as "prefer-b" | "prefer-c" | "defer" | "concatenate";
+    const conflictStrategy = twoWayConflictStrategyEl.value as
+      | "prefer-b"
+      | "prefer-c"
+      | "defer"
+      | "concatenate";
 
     // Use 3-way merge with empty ancestor to combine two prompts
     // A = empty (no common ancestor)

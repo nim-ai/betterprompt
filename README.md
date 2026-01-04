@@ -100,7 +100,11 @@ console.log(result.merged);
 ### Generate and Apply Patches
 
 ```typescript
-import { generatePatch, applyPatch, serializePatch } from "@nim-ai/betterprompt";
+import {
+  generatePatch,
+  applyPatch,
+  serializePatch,
+} from "@nim-ai/betterprompt";
 
 // When user customizes the base
 const patch = await generatePatch(baseV1, userCustom);
@@ -132,13 +136,13 @@ console.log(summarizeDiff(result));
 
 When both B (upgraded) and C (user customized) change the same content, use `conflictStrategy`:
 
-| Strategy | Description |
-| --- | --- |
-| `prefer-c` | Automatically choose C's version (user's) — **default** |
-| `prefer-b` | Automatically choose B's version (upgraded) |
-| `prefer-a` | Automatically choose A's version (original) |
-| `defer` | Leave conflict markers for manual resolution |
-| `concatenate` | Include both versions |
+| Strategy      | Description                                             |
+| ------------- | ------------------------------------------------------- |
+| `prefer-c`    | Automatically choose C's version (user's) — **default** |
+| `prefer-b`    | Automatically choose B's version (upgraded)             |
+| `prefer-a`    | Automatically choose A's version (original)             |
+| `defer`       | Leave conflict markers for manual resolution            |
+| `concatenate` | Include both versions                                   |
 
 ```typescript
 const result = await merge(a, b, c, { conflictStrategy: "prefer-b" });
@@ -292,6 +296,7 @@ Both are released under the **MIT License** and are free for commercial use.
 The ML model's key advantage is **discrimination**: it gives low similarity scores for unrelated content. The char-frequency fallback gives high scores (~0.75) to any English text due to common letter distributions. ML embeddings maintain a 6x larger gap between similar and unrelated content, enabling more accurate sentence alignment during merges.
 
 If you prefer not to use the bundled model:
+
 - Use `--no-ml` flag in CLI to use char-frequency similarity instead
 - Provide a custom embedding provider via `setDefaultProvider()`
 

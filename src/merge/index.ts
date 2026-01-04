@@ -168,18 +168,20 @@ export async function merge(
       // If bChange is a deletion (target is null), look for a B insertion at similar position
       if (bChange?.type === "deletion" && !bChange.target) {
         // Find insertion at same index position, or closest unprocessed insertion
-        const bInsertion = abAlignment.pairs.find(
-          (p) =>
-            p.type === "insertion" &&
-            p.target &&
-            !processedBUnits.has(p.target.hash) &&
-            p.target.index === aUnit.index
-        ) ?? abAlignment.pairs.find(
-          (p) =>
-            p.type === "insertion" &&
-            p.target &&
-            !processedBUnits.has(p.target.hash)
-        );
+        const bInsertion =
+          abAlignment.pairs.find(
+            (p) =>
+              p.type === "insertion" &&
+              p.target &&
+              !processedBUnits.has(p.target.hash) &&
+              p.target.index === aUnit.index
+          ) ??
+          abAlignment.pairs.find(
+            (p) =>
+              p.type === "insertion" &&
+              p.target &&
+              !processedBUnits.has(p.target.hash)
+          );
         if (bInsertion?.target) {
           bContent = bInsertion.target.content;
           processedBUnits.add(bInsertion.target.hash);
@@ -189,18 +191,20 @@ export async function merge(
       // If cChange is a deletion (target is null), look for a C insertion at similar position
       if (cChange?.type === "deletion" && !cChange.target) {
         // Find insertion at same index position, or closest unprocessed insertion
-        const cInsertion = acAlignment.pairs.find(
-          (p) =>
-            p.type === "insertion" &&
-            p.target &&
-            !processedCUnits.has(p.target.hash) &&
-            p.target.index === aUnit.index
-        ) ?? acAlignment.pairs.find(
-          (p) =>
-            p.type === "insertion" &&
-            p.target &&
-            !processedCUnits.has(p.target.hash)
-        );
+        const cInsertion =
+          acAlignment.pairs.find(
+            (p) =>
+              p.type === "insertion" &&
+              p.target &&
+              !processedCUnits.has(p.target.hash) &&
+              p.target.index === aUnit.index
+          ) ??
+          acAlignment.pairs.find(
+            (p) =>
+              p.type === "insertion" &&
+              p.target &&
+              !processedCUnits.has(p.target.hash)
+          );
         if (cInsertion?.target) {
           cContent = cInsertion.target.content;
           processedCUnits.add(cInsertion.target.hash);
@@ -223,7 +227,8 @@ export async function merge(
       // If it created a hybrid (neither B nor C), treat as conflict and apply strategy
       const mergedEqualsB = wordMergeResult.merged === bContent;
       const mergedEqualsC = wordMergeResult.merged === cContent;
-      const isCleanMerge = !wordMergeResult.hasConflict && (mergedEqualsB || mergedEqualsC);
+      const isCleanMerge =
+        !wordMergeResult.hasConflict && (mergedEqualsB || mergedEqualsC);
 
       // Get the strategy to decide behavior
       const strategy = normalizeStrategy(opts.conflictStrategy);

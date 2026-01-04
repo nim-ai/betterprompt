@@ -379,7 +379,10 @@ describe("ML Embeddings vs Char-Frequency: Semantic Understanding", () => {
       let levUnrelatedAvg = 0;
 
       for (const testCase of similarCases) {
-        const { ml, lev } = await computeSimilarities(testCase.sentenceA, testCase.sentenceB);
+        const { ml, lev } = await computeSimilarities(
+          testCase.sentenceA,
+          testCase.sentenceB
+        );
         mlSimilarAvg += ml;
         levSimilarAvg += lev;
       }
@@ -387,7 +390,10 @@ describe("ML Embeddings vs Char-Frequency: Semantic Understanding", () => {
       levSimilarAvg /= similarCases.length;
 
       for (const testCase of unrelatedCases) {
-        const { ml, lev } = await computeSimilarities(testCase.sentenceA, testCase.sentenceB);
+        const { ml, lev } = await computeSimilarities(
+          testCase.sentenceA,
+          testCase.sentenceB
+        );
         mlUnrelatedAvg += ml;
         levUnrelatedAvg += lev;
       }
@@ -399,8 +405,12 @@ describe("ML Embeddings vs Char-Frequency: Semantic Understanding", () => {
       const levGap = levSimilarAvg - levUnrelatedAvg;
 
       console.log("\n=== Discrimination Ability ===");
-      console.log(`ML  - Similar avg: ${mlSimilarAvg.toFixed(3)}, Unrelated avg: ${mlUnrelatedAvg.toFixed(3)}, Gap: ${mlGap.toFixed(3)}`);
-      console.log(`Lev - Similar avg: ${levSimilarAvg.toFixed(3)}, Unrelated avg: ${levUnrelatedAvg.toFixed(3)}, Gap: ${levGap.toFixed(3)}`);
+      console.log(
+        `ML  - Similar avg: ${mlSimilarAvg.toFixed(3)}, Unrelated avg: ${mlUnrelatedAvg.toFixed(3)}, Gap: ${mlGap.toFixed(3)}`
+      );
+      console.log(
+        `Lev - Similar avg: ${levSimilarAvg.toFixed(3)}, Unrelated avg: ${levUnrelatedAvg.toFixed(3)}, Gap: ${levGap.toFixed(3)}`
+      );
 
       // ML should have a LARGER gap between similar and unrelated
       // This means it better distinguishes semantically related from unrelated content

@@ -82,10 +82,10 @@ Each semantic unit has a stable hash based on normalized content:
 
 For semantic comparison, sentence embeddings are used:
 
-| Provider | Model           | Dimension | Size   |
-| -------- | --------------- | --------- | ------ |
-| Default  | Model2Vec       | 256       | 7.5 MB |
-| Fallback | Char-frequency  | 128       | 0 KB   |
+| Provider | Model          | Dimension | Size   |
+| -------- | -------------- | --------- | ------ |
+| Default  | Model2Vec      | 256       | 7.5 MB |
+| Fallback | Char-frequency | 128       | 0 KB   |
 
 The Model2Vec model is bundled with the package (no runtime downloads). It uses the tokenizer from BAAI/bge-base-en-v1.5. Both are MIT licensed.
 
@@ -196,6 +196,7 @@ Edits are extracted by comparing aligned pairs:
 ### 5.1 Three-Way Merge Logic
 
 Three inputs:
+
 - **A** (original base): The starting point
 - **B** (upgraded base): New version of the base
 - **C** (user custom): User's modifications to A

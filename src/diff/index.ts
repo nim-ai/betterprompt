@@ -111,14 +111,20 @@ export function wordDiff(original: string, modified: string): WordDiffOp[] {
   while (ai < tokensA.length || bi < tokensB.length) {
     // Collect deletions (in original but not in common)
     const deletions: string[] = [];
-    while (ai < tokensA.length && (ci >= common.length || tokensA[ai] !== common[ci])) {
+    while (
+      ai < tokensA.length &&
+      (ci >= common.length || tokensA[ai] !== common[ci])
+    ) {
       deletions.push(tokensA[ai]!);
       ai++;
     }
 
     // Collect insertions (in modified but not in common)
     const insertions: string[] = [];
-    while (bi < tokensB.length && (ci >= common.length || tokensB[bi] !== common[ci])) {
+    while (
+      bi < tokensB.length &&
+      (ci >= common.length || tokensB[bi] !== common[ci])
+    ) {
       insertions.push(tokensB[bi]!);
       bi++;
     }
@@ -161,7 +167,8 @@ function tokenizeSemantic(text: string): string[] {
   const tokens: string[] = [];
 
   // Split into words first, preserving whitespace
-  const wordPattern = /(\s+)|([a-zA-Z]+(?:'[a-z]+)?)|([0-9]+(?:\.[0-9]+)?)|([^\s\w])/g;
+  const wordPattern =
+    /(\s+)|([a-zA-Z]+(?:'[a-z]+)?)|([0-9]+(?:\.[0-9]+)?)|([^\s\w])/g;
   let match;
 
   while ((match = wordPattern.exec(text)) !== null) {
@@ -182,17 +189,25 @@ export function tokenDiff(original: string, modified: string): WordDiffOp[] {
   const common = lcs(tokensA, tokensB);
 
   const ops: WordDiffOp[] = [];
-  let ai = 0, bi = 0, ci = 0;
+  let ai = 0,
+    bi = 0,
+    ci = 0;
 
   while (ai < tokensA.length || bi < tokensB.length) {
     const deletions: string[] = [];
-    while (ai < tokensA.length && (ci >= common.length || tokensA[ai] !== common[ci])) {
+    while (
+      ai < tokensA.length &&
+      (ci >= common.length || tokensA[ai] !== common[ci])
+    ) {
       deletions.push(tokensA[ai]!);
       ai++;
     }
 
     const insertions: string[] = [];
-    while (bi < tokensB.length && (ci >= common.length || tokensB[bi] !== common[ci])) {
+    while (
+      bi < tokensB.length &&
+      (ci >= common.length || tokensB[bi] !== common[ci])
+    ) {
       insertions.push(tokensB[bi]!);
       bi++;
     }
@@ -252,22 +267,36 @@ export function simpleDiff(
       const commonSentences = lcs(sentencesA, sentencesB);
 
       const ops: WordDiffOp[] = [];
-      let si = 0, ti = 0, ci = 0;
+      let si = 0,
+        ti = 0,
+        ci = 0;
 
       while (si < sentencesA.length || ti < sentencesB.length) {
         const dels: string[] = [];
-        while (si < sentencesA.length && (ci >= commonSentences.length || sentencesA[si] !== commonSentences[ci])) {
+        while (
+          si < sentencesA.length &&
+          (ci >= commonSentences.length ||
+            sentencesA[si] !== commonSentences[ci])
+        ) {
           dels.push(sentencesA[si]!);
           si++;
         }
         const ins: string[] = [];
-        while (ti < sentencesB.length && (ci >= commonSentences.length || sentencesB[ti] !== commonSentences[ci])) {
+        while (
+          ti < sentencesB.length &&
+          (ci >= commonSentences.length ||
+            sentencesB[ti] !== commonSentences[ci])
+        ) {
           ins.push(sentencesB[ti]!);
           ti++;
         }
 
         if (dels.length > 0 && ins.length > 0) {
-          ops.push({ type: "replace", content: ins.join(""), oldContent: dels.join("") });
+          ops.push({
+            type: "replace",
+            content: ins.join(""),
+            oldContent: dels.join(""),
+          });
         } else if (dels.length > 0) {
           ops.push({ type: "delete", content: dels.join("") });
         } else if (ins.length > 0) {

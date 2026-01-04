@@ -3,7 +3,10 @@
  */
 import { describe, it, expect, beforeAll } from "vitest";
 import { merge } from "../src/merge/index.js";
-import { setDefaultProvider, CharFrequencyEmbeddingProvider } from "../src/embeddings/index.js";
+import {
+  setDefaultProvider,
+  CharFrequencyEmbeddingProvider,
+} from "../src/embeddings/index.js";
 import type { EmbeddingProvider } from "../src/types/index.js";
 
 class TestEmbeddingProvider implements EmbeddingProvider {
@@ -61,9 +64,7 @@ Focus on best practices and clean code.`;
     console.log(result.stats);
 
     // Check for "identical" conflicts (where B and C are the same)
-    const identicalConflicts = result.conflicts.filter(
-      (c) => c.b === c.c
-    );
+    const identicalConflicts = result.conflicts.filter((c) => c.b === c.c);
 
     if (identicalConflicts.length > 0) {
       console.log("\n=== IDENTICAL CONFLICTS (BUG!) ===");
@@ -121,7 +122,7 @@ Focus on best practices and clean code.`;
     });
 
     // Check for identical conflicts
-    const identicalConflicts = result.conflicts.filter(c => c.b === c.c);
+    const identicalConflicts = result.conflicts.filter((c) => c.b === c.c);
     expect(identicalConflicts).toHaveLength(0);
   });
 });

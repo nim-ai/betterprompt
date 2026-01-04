@@ -182,7 +182,6 @@ Focus on best practices.`;
     expect(result.merged).not.toContain("  "); // No double spaces
     expect(result.merged).not.toMatch(/accurate.*accurate/); // No duplicate "accurate"
   });
-
 });
 
 describe("complex merge scenarios", () => {
@@ -242,7 +241,7 @@ describe("complex merge scenarios", () => {
     const result = await merge(a, b, c, { conflictStrategy: "defer" });
 
     // First should be Y (from B), last should be Z (from C)
-    const lines = result.merged.split(/\.\s*/).filter(s => s.trim());
+    const lines = result.merged.split(/\.\s*/).filter((s) => s.trim());
     expect(lines[0]).toContain("Y");
     expect(lines[lines.length - 1]).toContain("Z");
   });
@@ -389,4 +388,3 @@ describe("concatenate strategy with conflicts", () => {
     expect(result.stats.autoResolved).toBeGreaterThanOrEqual(0);
   });
 });
-

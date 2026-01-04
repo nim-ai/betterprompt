@@ -199,7 +199,8 @@ describe("applyPatch edge cases", () => {
 
   it("should adapt INSERT when context changes", async () => {
     const original = "First sentence. Second sentence. Third sentence.";
-    const modified = "First sentence. Second sentence. Inserted here. Third sentence.";
+    const modified =
+      "First sentence. Second sentence. Inserted here. Third sentence.";
 
     const patch = await generatePatch(original, modified);
 
@@ -208,7 +209,9 @@ describe("applyPatch edge cases", () => {
     const result = await applyPatch(newBase, patch);
 
     // Should either apply or adapt (depends on context similarity)
-    expect(result.applied.length + result.adapted.length + result.failed.length).toBeGreaterThan(0);
+    expect(
+      result.applied.length + result.adapted.length + result.failed.length
+    ).toBeGreaterThan(0);
   });
 
   it("should handle KEEP operations", async () => {
@@ -226,8 +229,10 @@ describe("applyPatch edge cases", () => {
   });
 
   it("should adapt REPLACE when context changes", async () => {
-    const original = "First sentence here. Target sentence. Last sentence here.";
-    const modified = "First sentence here. Replaced sentence. Last sentence here.";
+    const original =
+      "First sentence here. Target sentence. Last sentence here.";
+    const modified =
+      "First sentence here. Replaced sentence. Last sentence here.";
 
     const patch = await generatePatch(original, modified);
 

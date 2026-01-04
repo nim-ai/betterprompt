@@ -3,7 +3,10 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { wordMerge3Way, canMergeWithoutConflict } from "../src/merge/word-merge.js";
+import {
+  wordMerge3Way,
+  canMergeWithoutConflict,
+} from "../src/merge/word-merge.js";
 
 describe("wordMerge3Way", () => {
   describe("no changes", () => {

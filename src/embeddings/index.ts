@@ -48,9 +48,7 @@ async function getNodeModelPath(): Promise<string> {
  */
 interface OrtModule {
   InferenceSession: {
-    create(
-      pathOrBuffer: string | ArrayBuffer
-    ): Promise<{
+    create(pathOrBuffer: string | ArrayBuffer): Promise<{
       run(feeds: Record<string, unknown>): Promise<Record<string, unknown>>;
     }>;
   };
