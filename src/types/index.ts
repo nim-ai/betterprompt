@@ -333,6 +333,12 @@ export interface MergeOptions {
   resolver?: ConflictResolver;
   /** Similarity thresholds */
   thresholds?: SimilarityOptions;
+  /**
+   * Minimum similarity score (0-1) for two segments to be considered a match.
+   * Higher values require more similar content to align.
+   * Default: 0.75
+   */
+  matchThreshold?: number;
 }
 
 // =============================================================================

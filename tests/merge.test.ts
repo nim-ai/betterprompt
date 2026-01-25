@@ -388,3 +388,34 @@ describe("concatenate strategy with conflicts", () => {
     expect(result.stats.autoResolved).toBeGreaterThanOrEqual(0);
   });
 });
+
+describe("matchThreshold option", () => {
+  it("should respect custom matchThreshold", async () => {
+    const a = "Hello world.";
+    const b = "Hello universe.";
+    const c = "Hello world."; // Same as A
+
+    // With default threshold (0.75), should match and apply B's upgrade
+    const defaultResult = await merge(a, b, c);
+    expect(defaultResult.merged).toContain("universe");
+
+    // With very high threshold (0.99), nothing should match, treating as separate
+    const strictResult = await merge(a, b, c, { matchThreshold: 0.99 });
+    // Should still produce a result
+    expect(strictResult.merged).toBeTruthy();
+  });
+
+  it("should compute B↔C similarity in conflicts", async () => {
+    const a = "The quick brown fox.";
+    const b = "The fast brown fox.";
+    const c = "The slow brown fox.";
+
+    const result = await merge(a, b, c, { conflictStrategy: "defer" });
+
+    // Should have a conflict with computed B↔C similarity
+    expect(result.conflicts.length).toBeGreaterThan(0);
+    const conflict = result.conflicts[0]!;
+    expect(conflict.similarities.bToC).toBeGreaterThan(0);
+    expect(conflict.similarities.bToC).toBeLessThan(1);
+  });
+});

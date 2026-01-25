@@ -16,6 +16,8 @@ import { segment, reconstruct } from "../segmentation/index.js";
 import { align } from "../alignment/index.js";
 import { createHash } from "../utils/hash.js";
 import { wordMerge3Way } from "./word-merge.js";
+import { getDefaultProvider } from "../embeddings/index.js";
+import { cosineSimilarity } from "../utils/similarity.js";
 
 /**
  * Normalize conflict strategy, defaulting to "prefer-c".
@@ -36,6 +38,7 @@ const DEFAULT_OPTIONS = {
     similarThreshold: 0.8,
   },
   resolver: undefined as undefined,
+  matchThreshold: 0.75,
 };
 
 /**
@@ -72,10 +75,14 @@ export async function merge(
   const segC = segment(c);
 
   // Align A ↔ B to understand upstream changes
-  const abAlignment = await align(segA.units, segB.units);
+  const abAlignment = await align(segA.units, segB.units, {
+    matchThreshold: opts.matchThreshold,
+  });
 
   // Align A ↔ C to understand user changes
-  const acAlignment = await align(segA.units, segC.units);
+  const acAlignment = await align(segA.units, segC.units, {
+    matchThreshold: opts.matchThreshold,
+  });
 
   // Build lookup maps for quick access
   const aToB = new Map<string, AlignedPair>();
@@ -305,6 +312,16 @@ export async function merge(
         // Treat as sentence-level conflict and apply strategy
         stats.conflicts++;
 
+        // Compute B↔C similarity for conflict info
+        let bToCsimilarity = 0;
+        if (bContent && cContent) {
+          const provider = getDefaultProvider();
+          const [bEmbed, cEmbed] = await provider.embed([bContent, cContent]);
+          if (bEmbed && cEmbed) {
+            bToCsimilarity = cosineSimilarity(bEmbed, cEmbed);
+          }
+        }
+
         const conflict: Conflict = {
           id: generateConflictId(),
           a: aUnit.content,
@@ -317,7 +334,7 @@ export async function merge(
           similarities: {
             aToB: bChange?.similarity ?? 0,
             aToC: cChange?.similarity ?? 0,
-            bToC: 0,
+            bToC: bToCsimilarity,
           },
         };
 
