@@ -130,7 +130,7 @@ requestAnimationFrame(syncUpdatesInputHeights);
 async function ensureInitialized(): Promise<void> {
   if (!initialized) {
     progressEl.style.display = "block";
-    progressTextEl.textContent = "Loading embedding model...";
+    progressTextEl.textContent = "Loading embedding model (this is only needed once and improves quality)...";
     progressFillEl.style.width = "10%";
 
     try {
