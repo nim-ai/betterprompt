@@ -1,6 +1,6 @@
 {
   "name": "@nim-ai/betterprompt",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Semantically merge and upgrade prompts or text.",
   "type": "module",
   "main": "./dist/index.cjs",
